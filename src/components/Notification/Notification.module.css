@@ -1,0 +1,6 @@
+.title {
+    margin-top: 0;
+    display: flex;
+    color: brown;
+    justify-content: center;
+}

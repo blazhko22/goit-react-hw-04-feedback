@@ -1,0 +1,23 @@
+.listFeedback {
+    display: flex;
+    justify-content: center;
+}
+
+.buttonFeedback {
+    margin-left: 20px;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    background-color: rgb(94, 59, 8);
+    color: #fff;
+    border-radius: 5px;
+}
+
+.buttonFeedback:hover {
+    background-color: rgb(153, 248, 196);
+    color: rgb(34, 57, 68);
+}
+
+.buttonFeedback:first-child {
+    margin-left: 0;
+}
