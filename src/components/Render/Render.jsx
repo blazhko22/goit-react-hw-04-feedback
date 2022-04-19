@@ -1,51 +1,59 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import Section from '../Section';
 import FeedbackOptions from '../FeedbackOptions';
 import Statistics from '../Statistics';
 import Notification from '../Notification';
 
-class Render extends Component {
-  state = {
-    good: 0,
-    neutral: 0,
-    bad: 0
-  };
+function Render() {
+  const [good, setGood] = useState(0);
+  const [neutral, setNeutral] = useState(0);
+  const [bad, setBad] = useState(0);
+  const [total, setTotal] = useState(0);
+  const [feedback, setFeedback] = useState(0);
 
-  handleBtnClick = e => {
-    const { name } = e.target;
-    this.setState(prevState => ({ [name]: prevState[name] + 1 }));
-  };
+  useEffect(() => {
+    setTotal(good + neutral + bad);
+    setFeedback(Math.round((good * 100) / total));
+  }, [good, neutral, bad, total]);
+  const handleBtnClick = (e) => {
+    switch (e.currentTarget.textContent) {
+      case "good":
+        setGood((prev) => prev + 1);
+        break;
+      case "bad":
+        setBad((prev) => prev + 1);
+        break;
+      case "neutral":
+        setNeutral((prev) => prev + 1);
+        break;
+      default:
+        break;
+    }
+  }  
+     
+  return (
 
-  render() {
-    const { good, neutral, bad } = this.state;
-    const total = good + neutral + bad;
-    const positiveFeedback = Math.round((good * 100) / total);
-   
-    return (
-
-      <div>
-        <Section title="Please leave feedback">
-          <FeedbackOptions
-            options={this.state}
-            onLeaveFeedback={this.handleBtnClick}
-        />
-        </Section>
-        <Section title="Statistics">
-          {total ?
-            (<Statistics
+    <div>
+      <Section title="Please leave feedback">
+        <FeedbackOptions
+          options={["good", "neutral", "bad"]}
+          onLeaveFeedback={handleBtnClick}
+      />
+      </Section>
+      <Section title="Statistics">
+        {total ?
+          (<Statistics
             good={good}
             neutral={neutral}
             bad={bad}
             total={total}
-            positiveFeedback={positiveFeedback} />)
+            positiveFeedback={feedback} />)
             :
             (<Notification message="There is no feedback"></Notification>)
-          }
-        </Section>
-      </div>
-    );
-  }
-  
+        }
+      </Section>
+    </div>
+  );    
 }
 
 export default Render;
